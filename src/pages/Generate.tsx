@@ -2,17 +2,50 @@ import { jsPDF } from "jspdf";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { generatePDF } from "../lib/utils";
 import Particles from "../components/Particles";
+import { Input } from "../components/Input";
+
+interface Education {
+  entity: string;
+  title: string;
+  description: string;
+  startYear: number;
+  finishYear: number;
+}
+
+interface Experience {
+  entity: string;
+  title: string;
+  description: string;
+  startYear: number;
+  finishYear: number;
+  role: string;
+  tasks: [];
+}
 
 export const Generate = () => {
   const [formInfo, setFormInfo] = useState<{
     firstname: string;
     lastname: string;
+    email: string;
+    areacode: string;
+    phonenumber: string;
+    sociallink: string;
+    image: string | ArrayBuffer | null;
+    education: Education[];
+    experience: Experience[];
   }>({
     firstname: "",
     lastname: "",
+    email: "",
+    areacode: "+549",
+    phonenumber: "",
+    sociallink: "",
+    image: "",
+    education: [],
+    experience: [],
   });
 
-  const [image, setImage] = useState<string | ArrayBuffer | null>("");
+  const [international, setInternational] = useState<boolean>(false);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -20,7 +53,10 @@ export const Generate = () => {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setImage(reader.result);
+      setFormInfo({
+        ...formInfo,
+        image: reader.result,
+      });
     };
 
     if (file) {
@@ -57,23 +93,44 @@ export const Generate = () => {
         />
         <div className="absolute w-full h-full grid place-content-center">
           <form
-            className="flex flex-col"
+            className="flex flex-col gap-6"
             onSubmit={handleSubmit}
           >
-            <input
-              type="text"
-              placeholder="Nombre"
-              name="firstname"
-              value={formInfo.firstname}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              placeholder="Apellido"
-              name="lastname"
-              value={formInfo.lastname}
-              onChange={handleChange}
-            />
+            <fieldset className="w-full flex gap-2">
+              <Input
+                value={formInfo.lastname}
+                placeholder="Apellido/s"
+                name="lastname"
+                handleChange={handleChange}
+              />
+              <Input
+                value={formInfo.firstname}
+                placeholder="Nombre/s"
+                name="firstname"
+                handleChange={handleChange}
+              />
+            </fieldset>
+            <fieldset>
+              <Input
+                value={formInfo.email}
+                placeholder="Email"
+                name="email"
+                handleChange={handleChange}
+              />
+            </fieldset>
+            <fieldset className="w-full flex gap-2">
+              <input
+                type="checkbox"
+                name="international"
+                onChange={() => setInternational(!international)}
+              />
+              {/* international ? (
+                  <>
+                  <Input />
+                  <Input />
+                  </>
+                ) : () */}
+            </fieldset>
             <input
               type="file"
               name="file"
