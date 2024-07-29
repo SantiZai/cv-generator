@@ -4,6 +4,7 @@ interface InputProps {
   value: string;
   placeholder: string;
   name: string;
+  className?: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -11,10 +12,13 @@ export const Input = ({
   value = "",
   placeholder = "",
   name = "",
+  className,
   handleChange,
 }: InputProps) => {
   return (
-    <div className="relative border-b border-gray-300 focus-within:border-gray-500 transition-all">
+    <div
+      className={`w-full relative border-b border-gray-300 focus-within:border-gray-500 transition-all ${className}`}
+    >
       <input
         type="text"
         value={value}
