@@ -1,10 +1,11 @@
 import { ChangeEvent } from "react";
 
 interface InputProps {
-  value: string;
+  value: string | number;
   placeholder: string;
   name: string;
   type?: string;
+  maxLength?: number;
   className?: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -14,6 +15,7 @@ export const Input = ({
   placeholder = "",
   name = "",
   type = "text",
+  maxLength,
   className,
   handleChange,
 }: InputProps) => {
@@ -26,12 +28,19 @@ export const Input = ({
         value={value}
         name={name}
         autoComplete="off"
+        maxLength={maxLength}
         onChange={handleChange}
         className="w-full outline-none focus:outline-none peer"
       />
       <label
         htmlFor={name}
-        className="absolute top-0 left-0 bg-transparent pointer-events-none text-gray-500 peer-focus:-translate-y-full peer-focus:text-sm peer-focus:text-black transition-all duration-300"
+        className={`absolute top-0 left-0 transition-all duration-300 pointer-events-none
+          ${
+            value
+              ? "-translate-y-full text-sm text-black"
+              : "top-0 text-gray-500"
+          }
+          peer-focus:-translate-y-full peer-focus:text-sm peer-focus:text-black`}
       >
         {placeholder}
       </label>
