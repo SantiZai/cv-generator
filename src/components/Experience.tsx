@@ -94,17 +94,23 @@ export const ExperienceModal = ({
         </fieldset>
         <fieldset className="w-full flex gap-2 p-4">
           <Input
-            name="description"
-            value={newExperience.description}
-            placeholder="Descripción"
+            name="ubication"
+            value={newExperience.ubication}
+            placeholder="Ubicación"
             handleChange={handleChange}
           />
-        </fieldset>
-        <fieldset className="w-full p-4">
           <Input
             name="role"
             value={newExperience.role}
             placeholder="Puesto"
+            handleChange={handleChange}
+          />
+        </fieldset>
+        <fieldset className="w-full flex gap-2 p-4">
+          <Input
+            name="description"
+            value={newExperience.description}
+            placeholder="Descripción"
             handleChange={handleChange}
           />
         </fieldset>
