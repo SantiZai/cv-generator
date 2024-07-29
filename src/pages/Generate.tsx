@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { generatePDF } from "../lib/utils";
 import Particles from "../components/Particles";
 import { Input } from "../components/Input";
@@ -32,6 +32,15 @@ export const Generate = () => {
   });
 
   const [international, setInternational] = useState<boolean>(false);
+
+  const [experience, setExperience] = useState<Experience[]>([]);
+
+  useEffect(() => {
+    setFormInfo({
+      ...formInfo,
+      experience,
+    });
+  }, [experience]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,10 +95,10 @@ export const Generate = () => {
         />
         <div className="absolute w-full h-full grid place-content-center">
           <form
-            className="flex flex-col gap-6"
+            className="w-3/4 sm:w-full mx-auto flex flex-col gap-6"
             onSubmit={handleSubmit}
           >
-            <fieldset className="w-full flex gap-2">
+            <fieldset className="sm:w-full flex flex-col sm:flex-row gap-2">
               <Input
                 value={formInfo.lastname}
                 placeholder="Apellido/s"
@@ -135,11 +144,12 @@ export const Generate = () => {
                 onChange={handlePhoneNumberChange}
                 defaultCountry="AR"
                 countries={international ? getCountries() : ["AR"]}
+                className="border-b border-gray-300 focus-within:border-gray-500 outline-none transition-all"
               />
             </fieldset>
             <fieldset className="w-full flex gap-2">
               <span>Agregar experiencia</span>
-              <ExperienceModal />
+              <ExperienceModal allExperience={experience} setAllExperience={setExperience} />
             </fieldset>
             {/* <input
               type="file"
