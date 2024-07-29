@@ -1,14 +1,14 @@
 import { ChangeEvent } from "react";
 
 interface InputProps {
-  text: string;
+  value: string;
   placeholder: string;
   name: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({
-  text = "",
+  value = "",
   placeholder = "",
   name = "",
   handleChange,
@@ -17,7 +17,7 @@ export const Input = ({
     <div className="relative border-b border-gray-300 focus-within:border-gray-500 transition-all">
       <input
         type="text"
-        value={text}
+        value={value}
         name={name}
         autoComplete="off"
         onChange={handleChange}
@@ -25,7 +25,7 @@ export const Input = ({
       />
       <label
         htmlFor={name}
-        className="absolute top-0 left-0 bg-transparent pointer-events-none peer-focus:-translate-y-full peer-focus:text-sm transition-all duration-300"
+        className="absolute top-0 left-0 bg-transparent pointer-events-none text-gray-500 peer-focus:-translate-y-full peer-focus:text-sm peer-focus:text-black transition-all duration-300"
       >
         {placeholder}
       </label>
