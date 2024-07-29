@@ -9,6 +9,7 @@ export interface Education {
 export interface Experience {
   entity: string;
   description: string;
+  ubication: string;
   startyear: number;
   finishyear: number;
   role: string;

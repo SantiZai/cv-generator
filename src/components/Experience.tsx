@@ -9,13 +9,14 @@ export const ExperienceModal = ({
   allExperience,
   setAllExperience,
 }: {
-  allExperience: Experience[]
+  allExperience: Experience[];
   setAllExperience: (experience: Experience[]) => void;
 }) => {
   const [openedModal, setOpenedModal] = useState<boolean>(false);
   const [newExperience, setNewExperience] = useState<Experience>({
     entity: "",
     description: "",
+    ubication: "",
     startyear: 2024,
     finishyear: 2024,
     role: "",
@@ -38,6 +39,7 @@ export const ExperienceModal = ({
     setNewExperience({
       entity: "",
       description: "",
+      ubication: "",
       startyear: 2024,
       finishyear: 2024,
       role: "",
