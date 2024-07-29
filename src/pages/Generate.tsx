@@ -9,6 +9,7 @@ import "react-phone-number-input/style.css";
 
 import { Education, Experience } from "../lib/interfaces";
 import { ExperienceModal } from "../components/Experience";
+import ShimmerButton from "../components/ShimmerButton";
 
 export const Generate = () => {
   const [formInfo, setFormInfo] = useState<{
@@ -35,12 +36,26 @@ export const Generate = () => {
 
   const [experience, setExperience] = useState<Experience[]>([]);
 
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+
+  const [submitError, setSubmitError] = useState<string>("");
+
   useEffect(() => {
     setFormInfo({
       ...formInfo,
       experience,
     });
   }, [experience]);
+
+  useEffect(() => {
+    const { firstname, lastname, email, phonenumber, sociallink } = formInfo;
+    if (firstname && lastname && email && phonenumber && sociallink) {
+      setButtonDisabled(false);
+      setSubmitError("")
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [formInfo]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -81,7 +96,12 @@ export const Generate = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    generatePDF(formInfo);
+    if (buttonDisabled) {
+      setSubmitError("Todos los campos son requeridos");
+    } else {
+      setSubmitError("");
+      generatePDF(formInfo);
+    }
   };
 
   return (
@@ -149,7 +169,10 @@ export const Generate = () => {
             </fieldset>
             <fieldset className="w-full flex gap-2">
               <span>Agregar experiencia</span>
-              <ExperienceModal allExperience={experience} setAllExperience={setExperience} />
+              <ExperienceModal
+                allExperience={experience}
+                setAllExperience={setExperience}
+              />
             </fieldset>
             {/* <input
               type="file"
@@ -157,6 +180,19 @@ export const Generate = () => {
               accept="image/*"
               onChange={handleImageChange}
             /> */}
+            <fieldset className="w-full flex flex-col gap-2">
+              {submitError && (
+                <span className="text-red-500 text-sm">{submitError}</span>
+              )}
+              <ShimmerButton
+                className="shadow-2xl w-full sm:w-auto"
+                type="submit"
+              >
+                <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
+                  Generar CV
+                </span>
+              </ShimmerButton>
+            </fieldset>
           </form>
         </div>
       </section>
