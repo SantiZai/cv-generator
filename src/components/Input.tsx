@@ -4,6 +4,7 @@ interface InputProps {
   value: string;
   placeholder: string;
   name: string;
+  type?: string;
   className?: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -12,6 +13,7 @@ export const Input = ({
   value = "",
   placeholder = "",
   name = "",
+  type = "text",
   className,
   handleChange,
 }: InputProps) => {
@@ -20,7 +22,7 @@ export const Input = ({
       className={`w-full relative border-b border-gray-300 focus-within:border-gray-500 transition-all ${className}`}
     >
       <input
-        type="text"
+        type={type}
         value={value}
         name={name}
         autoComplete="off"
