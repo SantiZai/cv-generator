@@ -3,6 +3,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { generatePDF } from "../lib/utils";
 import Particles from "../components/Particles";
 import { Input } from "../components/Input";
+import IntlTelInput, { CountryData } from "react-intl-tel-input";
+import "react-intl-tel-input/dist/main.css";
 
 interface Education {
   entity: string;
@@ -37,7 +39,7 @@ export const Generate = () => {
     firstname: "",
     lastname: "",
     email: "",
-    areacode: "+549",
+    areacode: "+54",
     phonenumber: "",
     sociallink: "",
     image: "",
@@ -76,13 +78,26 @@ export const Generate = () => {
     });
   };
 
+  const handlePhoneNumberChange = (
+    isValid: boolean,
+    rawValue: string,
+    countryData: CountryData,
+    formattedValue: string,
+    extension: string
+  ) => {
+    setFormInfo({
+      ...formInfo,
+      areacode: `+${countryData.dialCode}`,
+      phonenumber: rawValue
+    });
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     generatePDF(formInfo);
   };
 
   return (
-    //TODO: agregar un check por si el cv es para uso internacional
     <main className="min-h-screen w-full text-lg">
       <section className="relative w-1/2 min-h-screen mx-auto grid place-content-center">
         <Particles
@@ -119,17 +134,34 @@ export const Generate = () => {
               />
             </fieldset>
             <fieldset className="w-full flex gap-2">
-              <input
-                type="checkbox"
-                name="international"
-                onChange={() => setInternational(!international)}
-              />
-              {/* international ? (
-                  <>
-                  <Input />
-                  <Input />
-                  </>
-                ) : () */}
+              <span>Internacional?</span>
+              <label className="relative inline-block h-8 w-14">
+                <input
+                  type="checkbox"
+                  name="international"
+                  className="opacity-0 h-full w-full peer"
+                  onChange={() => setInternational(!international)}
+                />
+                <span className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-slate-300 transition-all duration-300 rounded-2xl before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition-all before:duration-300 before:rounded-full peer-checked:bg-slate-600 peer-checked:before:translate-x-6"></span>
+              </label>
+              {international ? (
+                <fieldset className="w-auto flex gap-2">
+                  <IntlTelInput
+                    value={formInfo.phonenumber}
+                    preferredCountries={["ar"]}
+                    onPhoneNumberChange={handlePhoneNumberChange}
+                  />
+                </fieldset>
+              ) : (
+                <>
+                  <IntlTelInput
+                    value={formInfo.phonenumber}
+                    preferredCountries={["ar"]}
+                    allowDropdown={false}
+                    onPhoneNumberChange={handlePhoneNumberChange}
+                  />
+                </>
+              )}
             </fieldset>
             <input
               type="file"
