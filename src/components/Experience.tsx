@@ -5,12 +5,15 @@ import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import ShimmerButton from "./ShimmerButton";
 
-export const ExperienceModal = () => {
+export const ExperienceModal = ({
+  allExperience,
+  setAllExperience,
+}: {
+  allExperience: Experience[]
+  setAllExperience: (experience: Experience[]) => void;
+}) => {
   const [openedModal, setOpenedModal] = useState<boolean>(false);
-  const [professionalExperience, setProfessionalExperience] = useState<
-    Experience[]
-  >([]);
-  const [experience, setExperience] = useState<Experience>({
+  const [newExperience, setNewExperience] = useState<Experience>({
     entity: "",
     description: "",
     startyear: 2024,
@@ -24,14 +27,23 @@ export const ExperienceModal = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setExperience({
-      ...experience,
+    setNewExperience({
+      ...newExperience,
       [name]: value,
     });
   };
 
-  const addExperience = (experience: Experience) => {
-    setProfessionalExperience([...professionalExperience, experience]);
+  const addExperience = () => {
+    setAllExperience([...allExperience, newExperience]);
+    setNewExperience({
+      entity: "",
+      description: "",
+      startyear: 2024,
+      finishyear: 2024,
+      role: "",
+      tasks: [],
+    });
+    setOpenedModal(false);
   };
 
   return (
@@ -50,35 +62,19 @@ export const ExperienceModal = () => {
         }}
         center
       >
-        <fieldset className="w-full flex gap-4 p-4">
+        <fieldset className="w-full flex flex-col sm:flex-row gap-4 p-4">
           <Input
             name="entity"
-            value={experience.entity}
+            value={newExperience.entity}
             placeholder="Empresa"
             handleChange={handleChange}
           />
-          <Input
-            name="role"
-            value={experience.role}
-            placeholder="Rol ejercido"
-            handleChange={handleChange}
-          />
-        </fieldset>
-        <fieldset className="w-full p-4">
-          <Input
-            name="description"
-            value={experience.description}
-            placeholder="Descripción"
-            handleChange={handleChange}
-          />
-        </fieldset>
-        <fieldset className="w-full px-4 pt-4 flex justify-between gap-4">
           <fieldset className="flex gap-4 items-start">
             <Input
               type="number"
               name="startyear"
-              value={experience.startyear}
-              placeholder="Año de inicio"
+              value={newExperience.startyear}
+              placeholder="Inicio"
               maxLength={4}
               handleChange={handleChange}
               className="w-1/2"
@@ -86,15 +82,37 @@ export const ExperienceModal = () => {
             <Input
               type="number"
               name="finishyear"
-              value={experience.finishyear}
-              placeholder="Año de finalización"
+              value={newExperience.finishyear}
+              placeholder="Finalización"
               maxLength={4}
               handleChange={handleChange}
               className="w-1/2"
             />
           </fieldset>
-          <ShimmerButton className="shadow-2xl w-1/3">
-            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
+        </fieldset>
+        <fieldset className="w-full flex gap-2 p-4">
+          <Input
+            name="description"
+            value={newExperience.description}
+            placeholder="Descripción"
+            handleChange={handleChange}
+          />
+        </fieldset>
+        <fieldset className="w-full p-4">
+          <Input
+            name="role"
+            value={newExperience.role}
+            placeholder="Puesto"
+            handleChange={handleChange}
+          />
+        </fieldset>
+        {/* TODO: agregar un input para agregar tarear realizadas o funciones cumplidas en ese trabajo */}
+        <fieldset className="w-full px-4 pt-4">
+          <ShimmerButton
+            className="shadow-2xl w-full sm:w-auto"
+            onClick={addExperience}
+          >
+            <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
               Agregar experiencia
             </span>
           </ShimmerButton>
