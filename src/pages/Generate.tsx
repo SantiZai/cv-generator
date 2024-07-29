@@ -3,33 +3,18 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { generatePDF } from "../lib/utils";
 import Particles from "../components/Particles";
 import { Input } from "../components/Input";
-import IntlTelInput, { CountryData } from "react-intl-tel-input";
-import "react-intl-tel-input/dist/main.css";
 
-interface Education {
-  entity: string;
-  title: string;
-  description: string;
-  startYear: number;
-  finishYear: number;
-}
+import PhoneInput, { getCountries, Value } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
-interface Experience {
-  entity: string;
-  title: string;
-  description: string;
-  startYear: number;
-  finishYear: number;
-  role: string;
-  tasks: [];
-}
+import { Education, Experience } from "../lib/interfaces";
+import { ExperienceModal } from "../components/Experience";
 
 export const Generate = () => {
   const [formInfo, setFormInfo] = useState<{
     firstname: string;
     lastname: string;
     email: string;
-    areacode: string;
     phonenumber: string;
     sociallink: string;
     image: string | ArrayBuffer | null;
@@ -39,7 +24,6 @@ export const Generate = () => {
     firstname: "",
     lastname: "",
     email: "",
-    areacode: "+54",
     phonenumber: "",
     sociallink: "",
     image: "",
@@ -78,17 +62,11 @@ export const Generate = () => {
     });
   };
 
-  const handlePhoneNumberChange = (
-    isValid: boolean,
-    rawValue: string,
-    countryData: CountryData,
-    formattedValue: string,
-    extension: string
-  ) => {
+  const handlePhoneNumberChange = (value: Value) => {
+    console.log(value);
     setFormInfo({
       ...formInfo,
-      areacode: `+${countryData.dialCode}`,
-      phonenumber: rawValue
+      phonenumber: value,
     });
   };
 
@@ -125,11 +103,18 @@ export const Generate = () => {
                 handleChange={handleChange}
               />
             </fieldset>
-            <fieldset>
+            <fieldset className="w-full flex gap-2">
               <Input
+                type="email"
                 value={formInfo.email}
                 placeholder="Email"
                 name="email"
+                handleChange={handleChange}
+              />
+              <Input
+                value={formInfo.sociallink}
+                placeholder="LinkedIn"
+                name="sociallink"
                 handleChange={handleChange}
               />
             </fieldset>
@@ -144,31 +129,24 @@ export const Generate = () => {
                 />
                 <span className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-slate-300 transition-all duration-300 rounded-2xl before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition-all before:duration-300 before:rounded-full peer-checked:bg-slate-600 peer-checked:before:translate-x-6"></span>
               </label>
-              {international ? (
-                <fieldset className="w-auto flex gap-2">
-                  <IntlTelInput
-                    value={formInfo.phonenumber}
-                    preferredCountries={["ar"]}
-                    onPhoneNumberChange={handlePhoneNumberChange}
-                  />
-                </fieldset>
-              ) : (
-                <>
-                  <IntlTelInput
-                    value={formInfo.phonenumber}
-                    preferredCountries={["ar"]}
-                    allowDropdown={false}
-                    onPhoneNumberChange={handlePhoneNumberChange}
-                  />
-                </>
-              )}
+              <PhoneInput
+                key={international ? "International" : "Local"}
+                value={formInfo.phonenumber}
+                onChange={handlePhoneNumberChange}
+                defaultCountry="AR"
+                countries={international ? getCountries() : ["AR"]}
+              />
             </fieldset>
-            <input
+            <fieldset className="w-full flex gap-2">
+              <span>Agregar experiencia</span>
+              <ExperienceModal />
+            </fieldset>
+            {/* <input
               type="file"
               name="file"
               accept="image/*"
               onChange={handleImageChange}
-            />
+            /> */}
           </form>
         </div>
       </section>
