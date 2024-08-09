@@ -40,6 +40,8 @@ export const Generate = () => {
 
   const [submitError, setSubmitError] = useState<string>("");
 
+  const [embedSrc, setEmbedSrc] = useState<Blob | null>(null)
+
   useEffect(() => {
     setFormInfo({
       ...formInfo,
@@ -194,6 +196,8 @@ export const Generate = () => {
               </ShimmerButton>
             </fieldset>
           </form>
+        <embed className="w-full h-auto" type="application/pdf" src={embedSrc ? URL.createObjectURL(embedSrc) : ""} />
+        <button onClick={() => setEmbedSrc(doc.output("blob"))}>gen</button>
         </div>
       </section>
     </main>
