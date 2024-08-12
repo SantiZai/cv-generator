@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { generatePDF } from "../lib/utils";
+import { generateDoc } from "../lib/utils";
 import Particles from "../components/Particles";
 import { Input } from "../components/Input";
 
@@ -11,19 +11,25 @@ import { Education, Experience } from "../lib/interfaces";
 import { ExperienceModal } from "../components/Experience";
 import ShimmerButton from "../components/ShimmerButton";
 
+interface FormInfo {
+  firstname: string;
+  lastname: string;
+  location: string;
+  description: string;
+  email: string;
+  phonenumber: string;
+  sociallink: string;
+  image: string | ArrayBuffer | null;
+  education: Education[];
+  experience: Experience[];
+}
+
 export const Generate = () => {
-  const [formInfo, setFormInfo] = useState<{
-    firstname: string;
-    lastname: string;
-    email: string;
-    phonenumber: string;
-    sociallink: string;
-    image: string | ArrayBuffer | null;
-    education: Education[];
-    experience: Experience[];
-  }>({
+  const [formInfo, setFormInfo] = useState<FormInfo>({
     firstname: "",
     lastname: "",
+    location: "",
+    description: "",
     email: "",
     phonenumber: "",
     sociallink: "",
@@ -40,7 +46,9 @@ export const Generate = () => {
 
   const [submitError, setSubmitError] = useState<string>("");
 
-  const [embedSrc, setEmbedSrc] = useState<Blob | null>(null)
+  const [embedSrc, setEmbedSrc] = useState<Blob | null>(null);
+
+  const [doc, setDoc] = useState<jsPDF>(new jsPDF());
 
   useEffect(() => {
     setFormInfo({
@@ -53,7 +61,7 @@ export const Generate = () => {
     const { firstname, lastname, email, phonenumber, sociallink } = formInfo;
     if (firstname && lastname && email && phonenumber && sociallink) {
       setButtonDisabled(false);
-      setSubmitError("")
+      setSubmitError("");
     } else {
       setButtonDisabled(true);
     }
@@ -75,10 +83,6 @@ export const Generate = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  const doc = new jsPDF();
-
-  doc.text("Hello world", 105, 10);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -102,7 +106,9 @@ export const Generate = () => {
       setSubmitError("Todos los campos son requeridos");
     } else {
       setSubmitError("");
-      generatePDF(formInfo);
+      const PDFGenerated = generateDoc(formInfo);
+      setDoc(PDFGenerated);
+      setEmbedSrc(PDFGenerated.output("blob"));
     }
   };
 
@@ -131,6 +137,14 @@ export const Generate = () => {
                 value={formInfo.firstname}
                 placeholder="Nombre/s"
                 name="firstname"
+                handleChange={handleChange}
+              />
+            </fieldset>
+            <fieldset className="w-full">
+              <Input
+                value={formInfo.description}
+                placeholder="Descripción"
+                name="description"
                 handleChange={handleChange}
               />
             </fieldset>
@@ -170,10 +184,18 @@ export const Generate = () => {
               />
             </fieldset>
             <fieldset className="w-full flex gap-2">
-              <span>Agregar experiencia</span>
+              <div className="w-1/2">
+                <Input
+                  value={formInfo.location}
+                  placeholder="País y ciudad"
+                  name="location"
+                  handleChange={handleChange}
+                />
+              </div>
               <ExperienceModal
                 allExperience={experience}
                 setAllExperience={setExperience}
+                className="w-1/2"
               />
             </fieldset>
             {/* <input
@@ -196,8 +218,11 @@ export const Generate = () => {
               </ShimmerButton>
             </fieldset>
           </form>
-        <embed className="w-full h-auto" type="application/pdf" src={embedSrc ? URL.createObjectURL(embedSrc) : ""} />
-        <button onClick={() => setEmbedSrc(doc.output("blob"))}>gen</button>
+          <embed
+            className="w-full h-auto"
+            type="application/pdf"
+            src={embedSrc ? URL.createObjectURL(embedSrc) : ""}
+          />
         </div>
       </section>
     </main>
