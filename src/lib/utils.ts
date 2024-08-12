@@ -33,25 +33,40 @@ export const generateDoc = (formInfo: {
     experience,
   } = formInfo;
 
-  const PDF = new jsPDF({format: "a4"});
+  const PDF = new jsPDF({ format: "a4" });
+
+  /* 
+  Personal info
+   */
 
   PDF.setFontSize(32);
   PDF.text(`${firstname.toString()} ${lastname.toString()}`, 105, 10, {
     align: "center",
   });
   PDF.setFontSize(18);
-  PDF.text(
-    `${location.toString()} ° ${sociallink.toString()} ° ${phonenumber.toString()} ° ${email.toString()}`,
-    105,
-    20,
-    { align: "center" }
-  );
+  PDF.text(`${location.toString()} ${sociallink.toString()}`, 105, 20, {
+    align: "center",
+    maxWidth: 190,
+  });
+  PDF.text(`${email.toString()} ${phonenumber.toString()}`, 105, 30, {
+    align: "center",
+    maxWidth: 190,
+  });
 
-  PDF.line(10, 25, 200, 25)
+  PDF.line(10, 35, 200, 35);
+  PDF.text(description.toString(), 10, 45, { maxWidth: 190 });
 
-  PDF.text(description.toString(), 10, 35, {maxWidth: 190})
+  /* 
+  Professional experience
+   */
 
-  PDF.line(10, 50, 200, 50)
+  PDF.setFontSize(20)
+  PDF.text("Experiencia laboral", 10, 78)
+  PDF.line(10, 80, 200, 80);
+
+  /* 
+  Education
+  */
 
   return PDF;
 };

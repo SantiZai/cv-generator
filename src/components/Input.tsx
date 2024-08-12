@@ -31,6 +31,7 @@ export const Input = ({
         maxLength={maxLength}
         onChange={handleChange}
         className="w-full outline-none focus:outline-none peer"
+        max={10}
       />
       <label
         htmlFor={name}

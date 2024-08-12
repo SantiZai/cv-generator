@@ -146,6 +146,7 @@ export const Generate = () => {
                 placeholder="Descripción"
                 name="description"
                 handleChange={handleChange}
+                maxLength={274}
               />
             </fieldset>
             <fieldset className="w-full flex gap-2">
