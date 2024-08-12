@@ -8,9 +8,11 @@ import ShimmerButton from "./ShimmerButton";
 export const ExperienceModal = ({
   allExperience,
   setAllExperience,
+  className,
 }: {
   allExperience: Experience[];
   setAllExperience: (experience: Experience[]) => void;
+  className?: string;
 }) => {
   const [openedModal, setOpenedModal] = useState<boolean>(false);
   const [newExperience, setNewExperience] = useState<Experience>({
@@ -49,12 +51,13 @@ export const ExperienceModal = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <button
         type="button"
         onClick={onOpenModal}
+        className="w-full"
       >
-        Open modal
+        Agregar experiencia
       </button>
       <Modal
         open={openedModal}
