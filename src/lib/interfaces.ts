@@ -1,17 +1,16 @@
 export interface Education {
   entity: string;
-  title: string;
-  description: string;
+  degree: string;
   startyear: number;
   finishyear: number;
+  learnings: string[];
 }
 
 export interface Experience {
   entity: string;
-  description: string;
   ubication: string;
   startyear: number;
   finishyear: number;
   role: string;
-  tasks: [];
+  tasks: string[];
 }
