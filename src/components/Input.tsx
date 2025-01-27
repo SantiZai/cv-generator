@@ -7,6 +7,7 @@ interface InputProps {
   type?: string;
   maxLength?: number;
   className?: string;
+  disabled?: boolean;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -17,6 +18,7 @@ export const Input = ({
   type = "text",
   maxLength,
   className,
+  disabled,
   handleChange,
 }: InputProps) => {
   return (
@@ -28,18 +30,18 @@ export const Input = ({
         value={value}
         name={name}
         autoComplete="off"
+        disabled={disabled}
         maxLength={maxLength}
         onChange={handleChange}
-        className="w-full outline-none focus:outline-none peer"
+        className={`w-full outline-none focus:outline-none peer ${disabled ? 'bg-white' : ''}`}
         max={10}
       />
       <label
         htmlFor={name}
         className={`absolute top-0 left-0 transition-all duration-300 pointer-events-none
-          ${
-            value
-              ? "-translate-y-full text-sm text-black"
-              : "top-0 text-gray-500"
+          ${value
+            ? "-translate-y-full text-sm text-black"
+            : "top-0 text-gray-500"
           }
           peer-focus:-translate-y-full peer-focus:text-sm peer-focus:text-black`}
       >
