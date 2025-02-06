@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export const Home = () => {
   return (
     <main className="min-h-screen w-full text-lg">
-      <section className="relative w-1/2 min-h-screen mx-auto grid place-content-center">
+      <section className="relative w-11/12 sm:w-1/2 min-h-screen mx-auto grid place-content-center">
         <Particles
           quantity={100}
           ease={80}
@@ -28,7 +28,7 @@ export const Home = () => {
               </AnimatedShinyText>
             </a>
           </h2>
-          <div className="relative w-1/2 mx-auto text-center text-balance my-4 py-4">
+          <div className="relative w-11/12 sm:w-1/2 mx-auto text-center text-balance my-4 py-4">
             <SparklesText
               text="Generá tu currículum vitae con un modelo recomendado por la
               Universidad de Harvard en cuestión de minutos."
@@ -38,17 +38,17 @@ export const Home = () => {
             />
           </div>
           <ul className="my-4 text-sm">
-            <li className="w-1/2 mx-auto border-x border-x-black flex flex-col items-center my-4">
+            <li className="w-11/12 sm:w-1/2 mx-auto border-x border-x-black flex flex-col items-center my-4">
               <span className="text-lg font-semibold">
                 Investigación de Harvard
               </span>
               <span>Diseño avalado por expertos</span>
             </li>
-            <li className="w-1/2 mx-auto border-x border-x-black flex flex-col items-center my-4">
+            <li className="w-11/12 sm:w-1/2 mx-auto border-x border-x-black flex flex-col items-center my-4">
               <span className="text-lg font-semibold">Fácil y rápido</span>
               <span>Completa tus datos y obtén tu CV al instante</span>
             </li>
-            <li className="w-1/2 mx-auto border-x border-x-black flex flex-col items-center my-4">
+            <li className="w-11/12 sm:w-1/2 mx-auto border-x border-x-black flex flex-col items-center my-4">
               <span className="text-lg font-semibold">
                 Aumenta tus oportunidades
               </span>
@@ -56,7 +56,7 @@ export const Home = () => {
             </li>
           </ul>
           <Link to="/generate">
-            <ShimmerButton className="shadow-2xl w-1/3 mx-auto">
+            <ShimmerButton className="shadow-2xl w-11/12 sm:w-1/3 mx-auto">
               <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
                 Generar ahora
               </span>

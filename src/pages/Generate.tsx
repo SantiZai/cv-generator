@@ -97,7 +97,7 @@ export const Generate = () => {
 
   return (
     <main className="min-h-screen w-full text-lg">
-      <section className="relative w-1/2 min-h-screen mx-auto">
+      <section className="relative w-11/12 sm:w-1/2 min-h-screen mx-auto">
         <Particles
           quantity={100}
           ease={80}
@@ -109,7 +109,7 @@ export const Generate = () => {
             className="w-3/4 sm:w-full mx-auto flex flex-col gap-6"
             onSubmit={handleSubmit}
           >
-            <fieldset className="sm:w-full flex flex-col sm:flex-row gap-2">
+            <fieldset className="sm:w-full flex flex-col sm:flex-row gap-4">
               <Input
                 value={formInfo.lastname}
                 placeholder="Apellido/s"
@@ -138,7 +138,9 @@ export const Generate = () => {
                 handleChange={handleChange}
               />
             </fieldset>
-            <fieldset className="w-full flex gap-2">
+            <fieldset className="w-full flex flex-col items-center justify-center sm:flex-row gap-2">
+              <div className='w-full flex justify-between sm:block'>
+
               <span>Internacional?</span>
               <label className="relative inline-block h-8 w-14">
                 <input
@@ -149,21 +151,22 @@ export const Generate = () => {
                 />
                 <span className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-slate-300 transition-all duration-300 rounded-2xl before:absolute before:h-6 before:w-6 before:left-1 before:bottom-1 before:bg-white before:transition-all before:duration-300 before:rounded-full peer-checked:bg-slate-600 peer-checked:before:translate-x-6"></span>
               </label>
+              </div>
               <PhoneInput
                 key={international ? 'International' : 'Local'}
                 value={formInfo.phonenumber}
                 onChange={handlePhoneNumberChange}
                 defaultCountry="AR"
                 countries={international ? getCountries() : ['AR']}
-                className="border-b border-gray-300 focus-within:border-gray-500 outline-none transition-all"
+                className="border-b border-gray-300 focus-within:border-gray-500 outline-none transition-all w-full sm:w-1/2"
               />
             </fieldset>
-            <fieldset className="w-full flex gap-2">
-              <EducationModal allEducation={education} setAllEducation={setEducation} className='w-1/2' />
+            <fieldset className="w-full flex items-center flex-col sm:flex-row gap-2">
+              <EducationModal allEducation={education} setAllEducation={setEducation} className='w-full sm:w-1/2' />
               <ExperienceModal
                 allExperience={experience}
                 setAllExperience={setExperience}
-                className="w-1/2"
+                className="w-full sm:w-1/2"
               />
             </fieldset>
             <fieldset className="w-full flex flex-col gap-2">

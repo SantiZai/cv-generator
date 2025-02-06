@@ -4,6 +4,7 @@ import { Input } from "./Input";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import ShimmerButton from "./ShimmerButton";
+import { TrashIcon } from "lucide-react";
 
 export const EducationModal = ({
   allEducation,
@@ -71,7 +72,7 @@ export const EducationModal = ({
       <button
         type="button"
         onClick={onOpenModal}
-        className="w-full"
+        className="w-full border border-black rounded-md py-2 hover:border-gray-700"
       >
         Agregar educación
       </button>
@@ -81,7 +82,6 @@ export const EducationModal = ({
         classNames={{
           modal: "w-3/4 sm:w-2/3 md:w-1/2 rounded-lg",
         }}
-        center
       >
         <fieldset className="w-full flex flex-col sm:flex-row gap-4 p-4">
           <Input
@@ -120,24 +120,24 @@ export const EducationModal = ({
           />
         </fieldset>
         <fieldset className="w-full flex flex-col gap-2 p-4">
-          <fieldset className="w-full flex gap-2 items-start">
+          <fieldset className="w-full flex flex-col items-center sm:flex-row gap-2 sm:items-start">
             <Input
               type="text"
               name="learning"
               value={learningInput}
               placeholder="Aprendizaje"
               handleChange={handleLearningInputChange}
-              className="w-1/2"
+              className="w-full sm:w-1/2"
             />
             <ShimmerButton
-              className="w-1/2 shadow-2xl"
+              className="w-full sm:w-1/2 shadow-2xl"
               onClick={addLearning}
             >
               Agregar aprendizaje
             </ShimmerButton>
           </fieldset>
           {newEducation.learnings.map((learning, i) => (
-            <fieldset className="w-full flex gap-2 items-start" key={i}>
+            <fieldset className="w-full flex gap-2 items-start mt-4 sm:mt-0" key={i}>
               <Input
                 type="text"
                 name="learning"
@@ -147,14 +147,9 @@ export const EducationModal = ({
                 className="w-1/2"
                 disabled={true}
               />
-              <ShimmerButton
-                className="w-1/2 shadow-2xl"
-                onClick={() => removeLearning(i)}
-              >
-                <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
-                  Eliminar aprendizaje
-                </span>
-              </ShimmerButton>
+              <button onClick={() => removeLearning(i)}>
+                <TrashIcon className="w-5 h-5 text-gray-500 hover:text-red-500" />
+              </button>
             </fieldset>
           ))}
         </fieldset>

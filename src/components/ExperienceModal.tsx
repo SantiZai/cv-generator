@@ -4,6 +4,7 @@ import { Input } from "./Input";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import ShimmerButton from "./ShimmerButton";
+import { TrashIcon } from "lucide-react";
 
 export const ExperienceModal = ({
   allExperience,
@@ -73,7 +74,7 @@ export const ExperienceModal = ({
       <button
         type="button"
         onClick={onOpenModal}
-        className="w-full"
+        className="w-full border border-black rounded-md py-2 hover:border-gray-700"
       >
         Agregar experiencia
       </button>
@@ -113,13 +114,7 @@ export const ExperienceModal = ({
             />
           </fieldset>
         </fieldset>
-        <fieldset className="w-full flex gap-2 p-4">
-          <Input
-            name="ubication"
-            value={newExperience.ubication}
-            placeholder="Ubicación"
-            handleChange={handleChange}
-          />
+        <fieldset className="w-full flex p-4">
           <Input
             name="role"
             value={newExperience.role}
@@ -128,24 +123,24 @@ export const ExperienceModal = ({
           />
         </fieldset>
         <fieldset className="w-full flex flex-col gap-2 p-4">
-        <fieldset className="w-full flex gap-2 items-start">
-          <Input
-            type="text"
-            name="task"
-            value={taskInput}
-            placeholder="Tarea"
-            handleChange={handleTaskInputChange}
-            className="w-1/2"
-          />
-          <ShimmerButton
-            className="w-1/2 shadow-2xl"
-            onClick={addTask}
-          >
-            Agregar tarea
-          </ShimmerButton>
-        </fieldset>
+          <fieldset className="w-full flex flex-col sm:flex-row gap-2 items-start">
+            <Input
+              type="text"
+              name="task"
+              value={taskInput}
+              placeholder="Tarea"
+              handleChange={handleTaskInputChange}
+              className="w-1/2"
+            />
+            <ShimmerButton
+              className="w-full sm:w-1/2 shadow-2xl"
+              onClick={addTask}
+            >
+              Agregar tarea
+            </ShimmerButton>
+          </fieldset>
           {newExperience.tasks.map((task, i) => (
-            <fieldset className="w-full flex gap-2 items-start" key={i}>
+            <fieldset className="w-full flex gap-2 items-start mt-4 sm:mt-0" key={i}>
               <Input
                 type="text"
                 name="task"
@@ -155,14 +150,9 @@ export const ExperienceModal = ({
                 className="w-1/2"
                 disabled={true}
               />
-              <ShimmerButton
-                className="w-1/2 shadow-2xl"
-                onClick={() => removeTask(i)}
-              >
-                <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
-                  Eliminar tarea
-                </span>
-              </ShimmerButton>
+              <button onClick={() => removeTask(i)}>
+                <TrashIcon className="w-5 h-5 text-gray-500 hover:text-red-500" />
+              </button>
             </fieldset>
           ))}
         </fieldset>

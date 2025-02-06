@@ -40,6 +40,9 @@ export const generateDoc = (formInfo: {
   Personal info
   */
 
+  // TODO: center the name
+  // TODO: increase the font size
+
   PDF.setFontSize(24);
   // centrar el nombre y apellido en el medio de la hoja
   PDF.text(`${firstname} ${lastname}`, 105, 10, {
